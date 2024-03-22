@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-git clone git@github.com:FrengerH/nixos-awesome.git ~/nixos
+git clone https://github.com/FrengerH/nixos-awesome.git ~/nixos
+
+cd ~/nixos
 
 if [ ! -f /etc/nixos/vars ]; then
     sudo python scripts/install-vars.py
