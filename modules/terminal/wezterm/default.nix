@@ -4,31 +4,9 @@ let
 
 in
   {
+    terminalCmd = "wezterm --config-file /etc/wezterm/wezterm.lua";
+
     users.defaultUserShell = pkgs.fish;
-
-    services.xserver = {
-      enable = true;
-
-      displayManager = {
-        lightdm.enable = true;
-	    defaultSession = "none+awesome";
-      };
-
-      windowManager.awesome = {
-        enable = true;
-        luaModules = with pkgs.luaPackages; [
-          luarocks
-        ];
-      };
-    };
-
-    services.picom = {
-      enable = true;
-      settings = {
-        vsync = true;
-        detect-client-opacity = true;
-      };
-    };
 
     environment.systemPackages = with pkgs; [
       wezterm
@@ -43,11 +21,8 @@ in
     programs = {
       fish = import ./config/fish;
       starship = import ./config/starship{ inherit pkgs; };
-      nm-applet.enable = true;
     };
-    
-    environment.etc."xdg/awesome/rc.lua".source = ./config/awesome/rc.lua;
-    environment.etc."xdg/awesome/themes/catppuccin".source = ./themes/awesome/catppuccin;
+
     environment.etc."wezterm/wezterm.lua".source = ./config/wezterm/wezterm.lua;
     environment.etc."bat/themes/CatppuccinMocha.tmTheme".source = (pkgs.fetchFromGitHub
       {
@@ -57,4 +32,3 @@ in
         sha256 = "sha256-POoW2sEM6jiymbb+W/9DKIjDM1Buu1HAmrNP0yC2JPg=";
       } + "/themes/Catppuccin Mocha.tmTheme");
   }
-

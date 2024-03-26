@@ -22,12 +22,27 @@
     user = vars.user;
     version = vars.version;
 
+    pkgsConf = {
+      terminal = vars.terminal or "wezterm";
+      editor = vars.editor or "neovim";
+    };
+
     supportedSystems = [ "aarch64-linux" "x86_64-linux" ];
 
     forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
 
     nixpkgsFor =
       forAllSystems (system: import nixpkgs { inherit system; });
+
+    lib = nixpkgs.lib;
+
+    terminalOptions = with lib.options; {
+      terminalCmd = mkOption {
+        type = with lib.types; str;
+        default = pkgsConf.terminal;
+        description = lib.mdDoc "Command to start terminal";
+      };
+    };
 
   in
   {
@@ -52,12 +67,17 @@
     nixosConfigurations = {
       main = nixpkgs.lib.nixosSystem {
         inherit system;
-        specialArgs = { inherit user; };
+        specialArgs = { 
+          inherit user; 
+          inherit terminalOptions; 
+          inherit pkgsConf;
+        };
         modules = [
           /etc/nixos/configuration.nix
           /etc/nixos/hardware-configuration.nix
           ./modules/common
-          ./modules/wm
+          ./modules/terminal/${pkgsConf.terminal}
+          ./modules/wm/awesome
           neovim.nixosModules.neovim
           home-manager.nixosModules.home-manager
           {

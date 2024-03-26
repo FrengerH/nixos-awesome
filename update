@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+set -e
+set -o pipefail
+
+cd ~/nixos
+nix flake update --extra-experimental-features 'nix-command flakes'
+./scripts/install.sh $@

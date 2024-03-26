@@ -63,7 +63,7 @@ beautiful.init("/etc/xdg/awesome/themes/catppuccin/theme.lua")
 --		 text = gears.filesystem.get_themes_dir() .. "default/theme.lua"})
 -- @DOC_DEFAULT_APPLICATIONS@
 -- This is used later as the default terminal and editor to run.
-terminal = "wezterm --config-file /etc/wezterm/wezterm.lua"
+terminal = "@terminalCmd@"
 editor = os.getenv("EDITOR") or "nvim"
 editor_cmd = terminal .. " -e " .. editor
 
