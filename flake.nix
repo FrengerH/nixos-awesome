@@ -2,9 +2,9 @@
   description = "System flake";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    home-manager.url = "github:nix-community/home-manager/release-23.11";
+    home-manager.url = "github:nix-community/home-manager/release-24.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     neovim.url = "github:frengerh/neovim";
     neovim.inputs.nixpkgs.follows = "nixpkgs";
@@ -78,6 +78,30 @@
           ./modules/common
           ./modules/terminal/${pkgsConf.terminal}
           ./modules/wm/awesome
+          neovim.nixosModules.neovim
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.${user} = {
+              home.stateVersion = "${version}";
+            };
+          }
+        ];
+      };
+
+      wsl = nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = { 
+          inherit user; 
+          inherit terminalOptions; 
+          inherit pkgsConf;
+        };
+        modules = [
+          /etc/nixos/configuration.nix
+          /etc/nixos/hardware-configuration.nix
+          ./modules/common
+          ./modules/terminal/${pkgsConf.terminal}
           neovim.nixosModules.neovim
           home-manager.nixosModules.home-manager
           {
