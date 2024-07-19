@@ -8,10 +8,9 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     neovim.url = "github:frengerh/neovim";
     neovim.inputs.nixpkgs.follows = "nixpkgs";
-    nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, neovim, nixos-wsl, ... }: 
+  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, neovim, ... }: 
   let
     varsPath = /etc/nixos/vars;
     varsFile = if builtins.pathExists varsPath 
@@ -109,11 +108,6 @@
           ./modules/common
           ./modules/terminal/${pkgsConf.terminal}
           neovim.nixosModules.neovim
-          nixos-wsl.nixosModules.default
-          {
-            system.stateVersion = "${version}";
-            wsl.enable = true;
-          }
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
