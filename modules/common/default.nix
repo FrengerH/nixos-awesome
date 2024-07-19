@@ -7,6 +7,7 @@ in
     options = terminalOptions;
 
     config = {
+      # isSystemUser
       fonts.packages = with pkgs; [
         fira-code
         (nerdfonts.override { fonts = [ "FiraCode" ]; })

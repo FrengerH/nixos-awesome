@@ -99,7 +99,6 @@
         };
         modules = [
           /etc/nixos/configuration.nix
-          /etc/nixos/hardware-configuration.nix
           ./modules/common
           ./modules/terminal/${pkgsConf.terminal}
           neovim.nixosModules.neovim
