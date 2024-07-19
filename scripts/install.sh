@@ -29,4 +29,4 @@ if [ ! -f /etc/nixos/vars ]; then
     nix-shell -p python3 --command "sudo python scripts/install-vars.py"
 fi
 
-sudo nixos-rebuild switch --flake .#$system --impure
+NIXPKGS_ALLOW_UNFREE=1 sudo nixos-rebuild switch --flake .#$system --impure
