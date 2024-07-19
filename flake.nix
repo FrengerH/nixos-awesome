@@ -16,7 +16,7 @@
     varsFile = if builtins.pathExists varsPath 
       then builtins.readFile varsPath 
       else builtins.readFile ./vars.example;
-    vars = builtins.fromJSON(varsFile);
+    vars = builtins.fromJSON varsFile;
 
     system = vars.system;
     user = vars.user;
@@ -98,6 +98,7 @@
       wsl = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = { 
+          pkgs = nixpkgsFor.${system};
           inherit user; 
           inherit terminalOptions; 
           inherit pkgsConf;
